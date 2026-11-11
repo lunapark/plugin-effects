@@ -1,0 +1,101 @@
+.lpfx-anchor {
+    position: relative;
+}
+
+.lpfx-texture {
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background-color: var(--lpfx-texture-color);
+        opacity: var(--lpfx-texture-opacity);
+        mix-blend-mode: var(--lpfx-texture-blend);
+        mask-image: var(--lpfx-texture-image);
+        mask-size: var(--lpfx-texture-size) var(--lpfx-texture-size);
+    }
+
+    &.lpfx-texture-grain {
+        --lpfx-texture-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n' x='0' y='0' width='1' height='1'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.6 0 0 0 -0.35'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    &.lpfx-texture-paper {
+        --lpfx-texture-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n' x='0' y='0' width='1' height='1'><feTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/><feDiffuseLighting lighting-color='white' surfaceScale='2'><feDistantLight azimuth='45' elevation='60'/></feDiffuseLighting><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 0 0 0 2.7'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    &.lpfx-texture-scanlines {
+        --lpfx-texture-image: linear-gradient(#000 34%, #0000 34%);
+    }
+
+    &.lpfx-texture-halftone {
+        --lpfx-texture-image: radial-gradient(circle, #000 28%, #0000 30%);
+    }
+
+    &.lpfx-texture-grid {
+        --lpfx-texture-image: linear-gradient(#000 1px, #0000 1px), linear-gradient(90deg, #000 1px, #0000 1px);
+    }
+}
+
+.lpfx-edge {
+    mask-image: var(--lpfx-edge-top), var(--lpfx-edge-bottom), linear-gradient(#000 0 0);
+    mask-repeat: repeat-x, repeat-x, no-repeat;
+    mask-position: top, bottom, 0 var(--lpfx-edge-inset-top);
+    mask-size:
+        var(--lpfx-edge-width) var(--lpfx-edge-size),
+        var(--lpfx-edge-width) var(--lpfx-edge-size),
+        100% calc(100% - var(--lpfx-edge-inset-top) - var(--lpfx-edge-inset-bottom));
+}
+
+.lpfx-notch {
+    --lpfx-notch-stop: #0000 var(--lpfx-edge-size), #000 calc(var(--lpfx-edge-size) + 0.5px);
+
+    mask-image: radial-gradient(circle at 0 50%, var(--lpfx-notch-stop)), radial-gradient(circle at 100% 50%, var(--lpfx-notch-stop));
+    mask-repeat: no-repeat;
+    mask-position: left, right;
+    mask-size: 51% 100%;
+}
+
+.lpfx-box-shadow {
+    box-shadow: var(--lpfx-box-shadow);
+}
+
+.lpfx-press {
+    cursor: pointer;
+    transition: transform 90ms linear, box-shadow 90ms linear;
+    -webkit-tap-highlight-color: transparent;
+
+    &:active {
+        transform: translate(var(--lpfx-shadow-x), var(--lpfx-shadow-y));
+        box-shadow: var(--lpfx-box-shadow-pressed);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+.lpfx-outline {
+    -webkit-text-stroke: var(--lpfx-outline-width) var(--lpfx-outline-color);
+    paint-order: stroke fill;
+}
+
+.lpfx-text-shadow {
+    text-shadow: var(--lpfx-text-shadow);
+}
+
+.lpfx-filter {
+    filter: var(--lpfx-filter);
+}
+
+.lpfx-gradient {
+    color: transparent;
+    background-image: var(--lpfx-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.lpfx-tilt {
+    rotate: var(--lpfx-tilt);
+}

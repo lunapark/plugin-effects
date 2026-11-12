@@ -24,6 +24,7 @@ export type TEffectsOptions = {
     outlineWidth?: number;
     rough?: number;
     shadow?: string;
+    shadowLift?: number;
     shadowPress?: boolean;
     shadowX?: number;
     shadowY?: number;
@@ -37,12 +38,13 @@ export type TEffectsOptions = {
 };
 
 type TEdgeTile = { path: string; ratio: number; width: number; };
-type TOptions = TEffectsOptions & typeof defaults;
-type TLayers = { boxShadow: Array<string>; filter: Array<string>; pressedShadow: Array<string>; textShadow: Array<string>; };
+type TDefaults = Required<Omit<TEffectsOptions, "edge" | "extrude" | "glow" | "gradient" | "outline" | "rough" | "shadow" | "texture" | "textureSize" | "tilt">>;
+type TOptions = TEffectsOptions & TDefaults;
+type TLayers = { boxShadow: Array<string>; filter: Array<string>; liftedShadow: Array<string>; pressedShadow: Array<string>; textShadow: Array<string>; };
 
 const prefix = "lpfx";
 
-export const defaults = {
+export const defaults: TDefaults = {
     edgeSides: "bottom",
     edgeSize: 12,
     extrudeAngle: 45,
@@ -53,6 +55,7 @@ export const defaults = {
     gradientFrom: "#ffffff",
     gradientTo: "#000000",
     outlineWidth: 2,
+    shadowLift: 0,
     shadowPress: false,
     shadowX: 6,
     shadowY: 6,
@@ -60,7 +63,7 @@ export const defaults = {
     textureColor: "#000000",
     textureOpacity: 0.2,
     tiltScatter: false
-} satisfies TEffectsOptions;
+};
 
 const textureSizes: Record<TTexture, number> = { grain: 240, grid: 24, halftone: 6, paper: 400, scanlines: 3 };
 
@@ -108,7 +111,7 @@ function applyTexture(element: HTMLElement, options: TOptions, texture: TTexture
     });
 }
 
-function applyEdge(element: HTMLElement, { edgeSides, edgeSize }: typeof defaults, edge: TEdge) {
+function applyEdge(element: HTMLElement, { edgeSides, edgeSize }: TDefaults, edge: TEdge) {
     if (edge === "notch") {
         element.classList.add(`${ prefix }-notch`);
         setVariables(element, { "edge-size": `${ edgeSize }px` });
@@ -138,9 +141,17 @@ function applyShadow(element: HTMLElement, options: TOptions, layers: TLayers, c
     layers.pressedShadow.push(`0 0 0 0 ${ color }`);
     element.classList.toggle(`${ prefix }-press`, options.shadowPress);
     setVariables(element, { "shadow-x": x, "shadow-y": y });
+
+    if (options.shadowLift > 0) {
+        const lift = options.shadowLift;
+
+        layers.liftedShadow.push(`${ options.shadowX + lift }px ${ options.shadowY + lift }px 0 0 ${ color }`);
+        element.classList.add(`${ prefix }-lift`);
+        setVariables(element, { "shadow-lift": `${ lift }px` });
+    }
 }
 
-function applyOutline(element: HTMLElement, { outlineWidth }: typeof defaults, color: string) {
+function applyOutline(element: HTMLElement, { outlineWidth }: TDefaults, color: string) {
     element.classList.add(`${ prefix }-outline`);
     setVariables(element, { "outline-color": color, "outline-width": `${ outlineWidth }px` });
 }
@@ -193,6 +204,7 @@ function applyGlow(options: TOptions, layers: TLayers, color: string) {
     if (options.glowOn === "box") {
         layers.boxShadow.push(glow);
         layers.pressedShadow.push(glow);
+        layers.liftedShadow.push(glow);
     }
     else if (isFilled(options)) {
         layers.textShadow.push(glow);
@@ -229,7 +241,7 @@ function applyTilt(element: HTMLElement, { tiltScatter }: TOptions, tilt: number
 }
 
 function applyLayers(element: HTMLElement, layers: TLayers) {
-    const lists = { "box-shadow": layers.boxShadow, "box-shadow-pressed": layers.pressedShadow, "filter": layers.filter, "text-shadow": layers.textShadow };
+    const lists = { "box-shadow": layers.boxShadow, "box-shadow-lifted": layers.liftedShadow, "box-shadow-pressed": layers.pressedShadow, "filter": layers.filter, "text-shadow": layers.textShadow };
 
     for (const [name, list] of Object.entries(lists)) {
         if (list.length) {
@@ -249,7 +261,7 @@ function clear(element: HTMLElement) {
 
 function apply(element: HTMLElement, value: TEffectsOptions) {
     const options = { ...defaults, ...value };
-    const layers: TLayers = { boxShadow: [], filter: [], pressedShadow: [], textShadow: [] };
+    const layers: TLayers = { boxShadow: [], filter: [], liftedShadow: [], pressedShadow: [], textShadow: [] };
 
     clear(element);
 

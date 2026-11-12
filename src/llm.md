@@ -17,6 +17,7 @@ Adds surface treatments to any layout element. Set its fields as `plugin.effects
 ## Hard shadow
 `shadow` is the colour of a solid offset shadow with no blur, the neo-brutalist and sticker look. `shadowX` and `shadowY` (px, default 6) set the offset.
 - `:plugin.effects.shadowPress="true"` makes the element pressable: while pressed it moves into its shadow and the shadow closes. Use it on buttons, tabs and cards that act as buttons, instead of `style:active` rules.
+- `:plugin.effects.shadowLift="3"` (px, default 0) lifts the element on hover and keyboard focus while its shadow stays in place on the page. Use it on paper and sticker buttons instead of moving them with Motion or `style:hover` transforms. It combines with `shadowPress`: hover lifts, press drops into the shadow.
 - Do not also set `box-shadow` in the element's style.
 
 ## Text outline
@@ -39,5 +40,5 @@ Adds surface treatments to any layout element. Set its fields as `plugin.effects
 
 ## Notes
 - The plugin owns `box-shadow`, `text-shadow`, `filter` and `rotate` on elements that use the matching effects: do not also set them in the element's style.
-- Colours take any CSS colour. To use a project token, bind it: `:plugin.effects.shadow="v-bind(custom/color/ink)"`.
+- Colours take any CSS colour. To use a project token, write it as `v-bind(<token id>)`: `plugin.effects.shadow="v-bind(custom/color/ink)"`.
 - A sensible default is applied for every field you leave out, so `plugin.effects.edge="torn"` alone is enough.

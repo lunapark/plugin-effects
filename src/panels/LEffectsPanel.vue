@@ -7,19 +7,19 @@
         >
             <div class="toggles">
                 <div
-                    v-for="(toggle, key) in toggles"
+                    v-for="key in toggleOrder"
                     :key="key"
-                    :aria-label="toggle.title"
+                    :aria-label="toggles[key].title"
                     :aria-pressed="modelValue[key] !== undefined"
                     class="toggle"
                     :class="{ selected: modelValue[key] !== undefined }"
                     role="button"
-                    :title="toggle.title"
-                    @click="emits('update:modelValue', { ...modelValue, [key]: modelValue[key] === undefined ? toggle.value : undefined })"
+                    :title="toggles[key].title"
+                    @click="emits('update:modelValue', { ...modelValue, [key]: modelValue[key] === undefined ? toggles[key].value : undefined })"
                 >
                     <LIcon
                         class="icon"
-                        :icon="toggle.icon"
+                        :icon="toggles[key].icon"
                     />
                 </div>
             </div>
@@ -34,15 +34,14 @@ import type { TElementPanelProps } from "@luna-park/plugin";
 import { computed } from "vue";
 
 import LEffectsCard from "@/panels/LEffectsCard.vue";
-import type { TToggleKey } from "@/panels/toggles";
-import { toggles } from "@/panels/toggles";
+import { toggleOrder, toggles } from "@/panels/toggles";
 import type { TEffectsOptions } from "@/runtime";
 
 const props = defineProps<TElementPanelProps<TEffectsOptions>>();
 
 const emits = defineEmits<(e: "update:modelValue", value: TEffectsOptions) => void>();
 
-const active = computed(() => (Object.keys(toggles) as Array<TToggleKey>)
+const active = computed(() => toggleOrder
     .filter((key) => props.modelValue[key] !== undefined)
     .map((key) => toggles[key].title));
 </script>

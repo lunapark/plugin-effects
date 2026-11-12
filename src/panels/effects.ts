@@ -32,7 +32,7 @@ export const effectsPanel: TElementPanel = {
             description: "Cuts the element's edges into a shape",
             enum: { notch: "Ticket notches", scallop: "Scallop", torn: "Torn paper", wave: "Wave", zigzag: "Zigzag" },
             optional: true,
-            options: { input: "effects/kind", preview: "edge", hidden: isOff("edge") }
+            options: { hidden: isOff("edge"), input: "effects/kind", preview: "edge" }
         }),
         edgeSides: LogicType.string({
             name: "Edge sides",
@@ -89,7 +89,7 @@ export const effectsPanel: TElementPanel = {
             description: "Fills the element's text with a gradient",
             enum: { chrome: "Chrome", custom: "Two colours", gold: "Gold", sunset: "Sunset" },
             optional: true,
-            options: { input: "effects/kind", preview: "gradient", hidden: isOff("gradient") }
+            options: { hidden: isOff("gradient"), input: "effects/kind", preview: "gradient" }
         }),
         gradientAngle: LogicType.number({
             name: "Gradient angle",
@@ -127,7 +127,7 @@ export const effectsPanel: TElementPanel = {
             default: toggles.rough.value,
             description: "Wobbles the element's outlines for a hand-cut look, by this many pixels",
             optional: true,
-            options: { suffix: "px", hidden: isOff("rough") }
+            options: { hidden: isOff("rough"), suffix: "px" }
         }),
         shadow: LogicType.string({
             name: "Hard shadow",
@@ -136,6 +136,12 @@ export const effectsPanel: TElementPanel = {
             format: "color",
             optional: true,
             options: { hidden: isOff("shadow") }
+        }),
+        shadowLift: LogicType.number({
+            name: "Lift on hover",
+            default: defaults.shadowLift,
+            description: "The element rises toward the viewer on hover while its shadow stays in place",
+            options: { min: 0, parent: "shadow", suffix: "px" }
         }),
         shadowPress: LogicType.boolean({
             name: "Press down",
@@ -159,7 +165,7 @@ export const effectsPanel: TElementPanel = {
             description: "Lays a pattern over the element",
             enum: { grain: "Grain", grid: "Grid", halftone: "Halftone", paper: "Paper", scanlines: "Scanlines" },
             optional: true,
-            options: { input: "effects/kind", preview: "texture", hidden: isOff("texture") }
+            options: { hidden: isOff("texture"), input: "effects/kind", preview: "texture" }
         }),
         textureBlend: LogicType.string({
             name: "Texture blend",
@@ -190,7 +196,7 @@ export const effectsPanel: TElementPanel = {
             default: toggles.tilt.value,
             description: "Rotates the element slightly",
             optional: true,
-            options: { suffix: "deg", hidden: isOff("tilt") }
+            options: { hidden: isOff("tilt"), suffix: "deg" }
         }),
         tiltScatter: LogicType.boolean({
             name: "Scatter",

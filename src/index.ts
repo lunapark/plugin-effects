@@ -13,20 +13,20 @@ export default makePlugin({
     id: "effects",
     name: "Effects",
     description: "Textures, shaped edges, shadows, glows and text effects for any element.",
+    icon,
     llm,
-    build: {
-        frontImports: [{ name: packageDefinition.name, version: packageDefinition.version }]
-    },
     editor: {
-        inputs: {
-            kind: markRaw(LKindInput)
-        },
         panel: {
             element: [effectsPanel]
+        },
+        inputs: {
+            kind: markRaw(LKindInput)
         }
     },
-    icon,
     inject: {
         css
+    },
+    build: {
+        frontImports: [{ name: packageDefinition.name, version: packageDefinition.version }]
     }
 });

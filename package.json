@@ -1,6 +1,6 @@
 {
     "name": "@luna-park/plugin-effects",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "private": false,
     "description": "Surface effects plugin for Luna Park.",
     "keywords": [

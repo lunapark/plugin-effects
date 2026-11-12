@@ -60,18 +60,30 @@
     box-shadow: var(--lpfx-box-shadow);
 }
 
+.lpfx-lift,
+.lpfx-press {
+    transition: transform 90ms linear, box-shadow 90ms linear;
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+.lpfx-lift {
+    &:hover,
+    &:focus-visible {
+        transform: translate(calc(-1 * var(--lpfx-shadow-lift)), calc(-1 * var(--lpfx-shadow-lift)));
+        box-shadow: var(--lpfx-box-shadow-lifted);
+    }
+}
+
 .lpfx-press {
     cursor: pointer;
-    transition: transform 90ms linear, box-shadow 90ms linear;
     -webkit-tap-highlight-color: transparent;
 
     &:active {
         transform: translate(var(--lpfx-shadow-x), var(--lpfx-shadow-y));
         box-shadow: var(--lpfx-box-shadow-pressed);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        transition: none;
     }
 }
 

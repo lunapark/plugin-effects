@@ -21,6 +21,11 @@
                     d="M0 0H60V20H0ZM0 6A4 4 0 0 1 0 14ZM60 6A4 4 0 0 0 60 14Z"
                     fill-rule="evenodd"
                 />
+                <path
+                    v-else-if="kind === 'corners'"
+                    d="M0 0H60V20H0ZM5 0A5 5 0 0 1 0 5V0ZM55 0A5 5 0 0 0 60 5V0ZM0 15A5 5 0 0 1 5 20H0ZM60 15A5 5 0 0 0 55 20H60Z"
+                    fill-rule="evenodd"
+                />
                 <template v-else>
                     <rect
                         height="11"
@@ -50,10 +55,8 @@ import { LSegmented } from "@luna-park/design";
 import type { TSchema } from "@luna-park/plugin";
 import { computed } from "vue";
 
-import type { TEdge, TGradient } from "@/runtime";
+import type { TGradient, TTiledEdge } from "@/runtime";
 import { edgeTiles, gradients } from "@/runtime";
-
-type TTiledEdge = Exclude<TEdge, "notch">;
 
 const props = defineProps<{
     schema: TSchema;

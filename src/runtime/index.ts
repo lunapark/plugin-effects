@@ -1,13 +1,15 @@
 import type { Directive } from "vue";
 
 export type TTexture = "grain" | "paper" | "scanlines" | "halftone" | "grid";
-export type TEdge = "torn" | "zigzag" | "scallop" | "wave" | "notch";
+export type TEdge = "torn" | "zigzag" | "scallop" | "wave" | "notch" | "corners";
+export type TTiledEdge = Exclude<TEdge, "notch" | "corners">;
 export type TEdgeSides = "top" | "bottom" | "both";
 export type TGradient = "chrome" | "gold" | "sunset" | "custom";
 export type TGlowTarget = "text" | "box";
 
 export type TEffectsOptions = {
     edge?: TEdge;
+    edgePosition?: number;
     edgeSides?: TEdgeSides;
     edgeSize?: number;
     extrude?: string;
@@ -45,6 +47,7 @@ type TLayers = { boxShadow: Array<string>; filter: Array<string>; liftedShadow: 
 const prefix = "lpfx";
 
 export const defaults: TDefaults = {
+    edgePosition: 50,
     edgeSides: "bottom",
     edgeSize: 12,
     extrudeAngle: 45,
@@ -75,7 +78,7 @@ export const gradients: Record<Exclude<TGradient, "custom">, string> = {
 
 const scatter = [1, -0.6, 0.4, -1, 0.7, -0.3];
 
-export const edgeTiles: Record<Exclude<TEdge, "notch">, TEdgeTile> = {
+export const edgeTiles: Record<TTiledEdge, TEdgeTile> = {
     scallop: { path: "M0 10A10 10 0 0 1 20 10Z", ratio: 2, width: 20 },
     torn: {
         path: "M0 10V4L6 6L11 2L19 5L24 1L33 4L41 3L47 7L55 2L62 5L70 1L78 6L85 3L93 5L99 0L108 4L115 2L122 6L131 3L138 7L146 2L154 5L161 1L169 4L177 6L184 2L192 5L200 4V10Z",
@@ -111,10 +114,10 @@ function applyTexture(element: HTMLElement, options: TOptions, texture: TTexture
     });
 }
 
-function applyEdge(element: HTMLElement, { edgeSides, edgeSize }: TDefaults, edge: TEdge) {
-    if (edge === "notch") {
-        element.classList.add(`${ prefix }-notch`);
-        setVariables(element, { "edge-size": `${ edgeSize }px` });
+function applyEdge(element: HTMLElement, { edgePosition, edgeSides, edgeSize }: TDefaults, edge: TEdge) {
+    if (edge === "notch" || edge === "corners") {
+        element.classList.add(`${ prefix }-${ edge }`);
+        setVariables(element, { "edge-size": `${ edgeSize }px`, "notch-position": `${ edgePosition }%` });
         return;
     }
 

@@ -30,15 +30,21 @@ export const effectsPanel: TElementPanel = {
             name: "Edge",
             default: toggles.edge.value,
             description: "Cuts the element's edges into a shape",
-            enum: { notch: "Ticket notches", scallop: "Scallop", torn: "Torn paper", wave: "Wave", zigzag: "Zigzag" },
+            enum: { corners: "Ticket corners", notch: "Ticket notches", scallop: "Scallop", torn: "Torn paper", wave: "Wave", zigzag: "Zigzag" },
             optional: true,
             options: { hidden: isOff("edge"), input: "effects/kind", preview: "edge" }
+        }),
+        edgePosition: LogicType.number({
+            name: "Notch position",
+            default: defaults.edgePosition,
+            description: "Where the notches sit along the sides: 0 is the top, 100 the bottom",
+            options: { clamp: true, hidden: (values: TEffectsOptions) => values.edge !== "notch", max: 100, min: 0, parent: "edge", suffix: "%" }
         }),
         edgeSides: LogicType.string({
             name: "Edge sides",
             default: defaults.edgeSides,
             enum: { both: "Top and bottom", bottom: "Bottom", top: "Top" },
-            options: { hidden: (values: TEffectsOptions) => values.edge === "notch", parent: "edge" }
+            options: { hidden: (values: TEffectsOptions) => values.edge === "notch" || values.edge === "corners", parent: "edge" }
         }),
         edgeSize: LogicType.number({
             name: "Edge size",

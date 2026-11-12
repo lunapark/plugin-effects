@@ -7,11 +7,14 @@ Adds surface treatments to any layout element. Set its fields as `plugin.effects
 - `textureOpacity` (0 to 1, default 0.2), `textureColor` (default black) and `textureBlend` (`multiply` by default; use `screen` with a light colour on dark surfaces, `normal` for a flat pattern).
 - `textureSize` (px) is the size of one repetition: line spacing for `scanlines`, dot spacing for `halftone`, cell size for `grid`.
 - Put it on the page wrapper for a site-wide grain, or on a card for a local one. It does not work on `<img>`, inputs or other elements without content: wrap them.
+- The texture covers everything inside the element, children with a `z-index` included, and never spills over its siblings. It scrolls with the element; it is not fixed to the screen.
 
 ## Edge
-`edge` cuts the element's outline: `torn` (ripped paper), `zigzag` (receipt), `scallop` (stamp, awning), `wave`, and `notch` (two half-circles bitten out of the left and right sides, like a ticket).
-- `edgeSides`: `bottom` (default), `top` or `both`. Ignored by `notch`.
-- `edgeSize` (px, default 12): depth of the cut, or radius of the notches.
+`edge` cuts the element's outline: `torn` (ripped paper), `zigzag` (receipt), `scallop` (stamp, awning), `wave`, `notch` (two half-circles bitten out of the left and right sides, like a ticket) and `corners` (a quarter-circle bitten out of each corner, like an admission stub).
+- `edgeSides`: `bottom` (default), `top` or `both`. Ignored by `notch` and `corners`.
+- `edgePosition` (%, default 50): where the `notch` half-circles sit along the sides, 0 at the top and 100 at the bottom.
+- `edgeSize` (px, default 12): depth of the cut, or radius of the notches and corners.
+- An edge is a mask, so it also cuts the element's border: a cut edge cannot carry a stroke. For an outlined ticket, draw the outline on a wrapper or keep a hand-built shape.
 - The cut removes part of the element, so give it a background and enough padding on the cut sides. It also clips the element's own `box-shadow`: put the shadow on a wrapper with `filter: drop-shadow(...)`.
 
 ## Hard shadow

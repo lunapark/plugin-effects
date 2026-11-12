@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | 🌫️ **Textures** | Grain, paper, scanlines, halftone and grid, laid over any element in your own colour. |
-| ✂️ **Shaped edges** | Torn paper, zigzag, scallop, wave and ticket notches. |
+| ✂️ **Shaped edges** | Torn paper, zigzag, scallop, wave, ticket notches and ticket corners. |
 | 🧱 **Hard shadows** | Solid offset shadows, with an optional press-down effect for buttons. |
 | 🔤 **Text outlines** | A stroke around your text that keeps the letters readable. |
 | 🧊 **3D text** | Extrude your lettering into a solid block, in any direction. |
@@ -27,7 +27,7 @@
 | Effect | Options |
 |---|---|
 | **Texture** | **Texture opacity**, **Texture color**, **Texture blend** (`multiply`, `screen`, `overlay`, `soft-light`, `normal`) and, optionally, **Texture size** (the size of one repetition). |
-| **Edge** | **Edge sides** (bottom, top or both) and **Edge size** (depth of the cut). **Ticket notches** bite a half-circle out of the left and right sides. |
+| **Edge** | **Edge sides** (bottom, top or both) and **Edge size** (depth of the cut). **Ticket notches** bite a half-circle out of the left and right sides, at a **Notch position** you choose; **Ticket corners** bite a quarter-circle out of each corner. |
 | **Hard shadow** | The shadow colour, **Shadow X** / **Shadow Y** for the offset, and **Press down** to make the element sink into its shadow while pressed. |
 | **Text outline** | The stroke colour and **Outline width**. |
 | **3D text** | The block colour, **3D depth** and **3D angle** (0 is right, 90 is down). |

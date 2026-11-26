@@ -89,9 +89,12 @@ export const edgeTiles: Record<TTiledEdge, TEdgeTile> = {
     zigzag: { path: "M0 10L10 0L20 10Z", ratio: 2, width: 20 }
 };
 
+const tileOverlap = 0.2;
+
 function getTile({ path, width }: TEdgeTile, flipped: boolean) {
-    const transform = flipped ? " transform='matrix(1 0 0 -1 0 10)'" : "";
-    return `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${ width } 10' preserveAspectRatio='none'><path${ transform } d='${ path }'/></svg>")`;
+    const height = 10 * (1 + tileOverlap);
+    const transform = flipped ? ` transform='matrix(1 0 0 -1 0 ${ height })'` : "";
+    return `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${ width } ${ height }' preserveAspectRatio='none'><g${ transform }><path d='${ path }'/><rect y='10' width='${ width }' height='${ height - 10 }'/></g></svg>")`;
 }
 
 function setVariables(element: HTMLElement, variables: Record<string, string>) {
@@ -128,9 +131,9 @@ function applyEdge(element: HTMLElement, { edgePosition, edgeSides, edgeSize }: 
     element.classList.add(`${ prefix }-edge`);
     setVariables(element, {
         "edge-bottom": bottom ? getTile(tile, true) : "none",
-        "edge-inset-bottom": bottom ? `${ edgeSize - 1 }px` : "0px",
-        "edge-inset-top": top ? `${ edgeSize - 1 }px` : "0px",
-        "edge-size": `${ edgeSize }px`,
+        "edge-inset-bottom": bottom ? `${ edgeSize }px` : "0px",
+        "edge-inset-top": top ? `${ edgeSize }px` : "0px",
+        "edge-tile": `${ edgeSize * (1 + tileOverlap) }px`,
         "edge-top": top ? getTile(tile, false) : "none",
         "edge-width": `${ edgeSize * tile.ratio }px`
     });

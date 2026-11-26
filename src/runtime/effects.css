@@ -45,8 +45,8 @@
     mask-repeat: repeat-x, repeat-x, no-repeat;
     mask-position: top, bottom, 0 var(--lpfx-edge-inset-top);
     mask-size:
-        var(--lpfx-edge-width) var(--lpfx-edge-size),
-        var(--lpfx-edge-width) var(--lpfx-edge-size),
+        var(--lpfx-edge-width) var(--lpfx-edge-tile),
+        var(--lpfx-edge-width) var(--lpfx-edge-tile),
         100% calc(100% - var(--lpfx-edge-inset-top) - var(--lpfx-edge-inset-bottom));
 }
 
